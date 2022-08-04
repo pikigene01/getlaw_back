@@ -17,7 +17,7 @@ class CreateLiveChatsTable extends Migration
             $table->id();
             $table->integer('sender_id');
             $table->integer('receiver_id');
-            $table->integer('message');
+            $table->string('message');
            $table->timestamps();
         });
     }
