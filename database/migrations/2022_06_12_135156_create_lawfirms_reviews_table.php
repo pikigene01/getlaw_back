@@ -17,7 +17,7 @@ class CreateLawfirmsReviewsTable extends Migration
             $table->id();
             $table->integer('post_id')->default(0);
             $table->integer('rated_index')->default(0);
-            $table->string('review');
+            $table->longText('review');
             $table->string('token');
             $table->timestamps();
         });

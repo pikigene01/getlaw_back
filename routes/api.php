@@ -53,6 +53,7 @@ Route::post('/message/save',[LawfirmController::class, 'add_msg']);
 Route::post('/message/get',[LawfirmController::class, 'get_msg']);
 Route::post('/message/delete',[LawfirmController::class, 'delete_msg']);
 Route::post('/note/get',[LawfirmController::class, 'get_note']);
+Route::post('/notifications/get',[LawfirmController::class, 'get_notitifications']);
 Route::post('/note/delete',[LawfirmController::class, 'delete_note']);
 Route::post('/user/delete',[registerController::class, 'delete_user']);
 Route::post('/user/update',[registerController::class, 'update_user']);

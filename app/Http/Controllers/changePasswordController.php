@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Notifications;
 
 use App\Models\User;
 
@@ -29,7 +30,7 @@ class changePasswordController extends Controller
                 'status' => 400,
                 'message' => 'New Password cannot be same as your current password. Please choose a different password.',
             ]);
-        
+
         }
         if(strcmp($request->current_password, $request->confirm_new_password) == 0){
             //Current password and new password are same
@@ -37,7 +38,7 @@ class changePasswordController extends Controller
                 'status' => 400,
                 'message' => 'New Password and Confirm Password do no match!!!!',
             ]);
-        
+
         }
         $user = User::where('id', $request->user_id)->first();
         // foreach($user as $user){
@@ -45,10 +46,10 @@ class changePasswordController extends Controller
                 return response()->json([
                     'status' => 401,
                     'message' => 'Invalid Credentials',
-                    
+
                 ]);
              }else{
-                 
+
 
 
         //Change Password

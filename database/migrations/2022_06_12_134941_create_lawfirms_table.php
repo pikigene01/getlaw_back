@@ -16,7 +16,7 @@ class CreateLawfirmsTable extends Migration
         Schema::create('lawfirms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->longText('description');
             $table->string('email');
             $table->string('price')->nullable();
             $table->string('phone_number')->unique();

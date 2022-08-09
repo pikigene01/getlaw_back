@@ -234,7 +234,11 @@ class LawfirmController extends Controller
           $bookings->data_date = $request->data_week;
           $bookings->type = $request->type;
           $bookings->save();
-
+          $notify = new Notifications();
+          $notify->to_id = $request->lawyer_id;
+          $notify->notification = "Someone booked a meeting with you (time: $request->data_event weekday: $request->data_week) ";
+          $notify->status = 'unread';
+          $notify->save();
           return response()->json([
             'status' => 200,
             'message' => 'You successfully scheduled',
@@ -286,7 +290,11 @@ public function set_availability(Request $request){
 
           $bookings->save();
    }
-
+   $notify = new Notifications();
+   $notify->to_id = $request->lawyer_id;
+   $notify->notification = "Your availability have been set successfully";
+   $notify->status = 'unread';
+   $notify->save();
 
      return response()->json([
          'status' => 200,
@@ -357,7 +365,11 @@ public function reset_availability(Request $request){
           $review->review = $request->review;
           $review->rated_index = $request->rated_index;
           $review->save();
-
+          $notify = new Notifications();
+          $notify->to_id = $request->post_id;
+          $notify->notification = "Someone rated your lawfirm $request->rated_index stars:::: review $request->review ";
+          $notify->status = 'unread';
+          $notify->save();
           try{
             $account_sid = env('TWILIO_SID');
             $account_token = env('TWILIO_TOKEN');
@@ -397,6 +409,16 @@ public function reset_availability(Request $request){
 
     }
 
+    }
+    public function get_notitifications(Request $request){
+        $user_id = $request->user_id;
+          $notifications = Notifications::where('to_id', $user_id)->get();
+
+          return response()->json([
+            'status' => 200,
+            'message' => 'Ok',
+            'notifications' => $notifications
+        ]);
     }
     public function add_note(Request $request){
 
@@ -482,6 +504,11 @@ public function reset_availability(Request $request){
           $chat->message = $request->message;
           $chat->save();
 
+          $notify = new Notifications();
+          $notify->to_id = $request->receiver_id;
+          $notify->notification = "Someone sent you a message....  $request->message";
+          $notify->status = 'unread';
+          $notify->save();
 
         return response()->json([
             'status' => 200,
