@@ -35,6 +35,7 @@ Route::post('/lawyers/get/gene',[LawfirmController::class, 'lawyers_get']);
 Route::post('/lawyers/get/gene/dash',[LawfirmController::class, 'lawyers_get_dash']);
 Route::post('/lawyers/get/info',[LawfirmController::class, 'lawyers_get_info']);
 Route::post('/lawfirms/view',[LawfirmController::class, 'view']);
+Route::post('/lawfirms/more_info',[LawfirmController::class, 'more_info']);
 Route::post('/lawyers/get',[LawfirmController::class, 'lawyers']);
 Route::post('/lawyers/get/all',[LawfirmController::class, 'lawyers_all']);
 Route::post('/post/review',[LawfirmController::class, 'save_review']);

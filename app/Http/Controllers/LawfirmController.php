@@ -141,6 +141,18 @@ class LawfirmController extends Controller
             'posts' => $lawfirm,
         ]);
     }
+
+    public function more_info(Request $request){
+
+        $lawfirms = User::where('role','1')->count();
+        $lawyers = User::where('role','2')->count();
+
+        return response()->json([
+            'status' => 200,
+            'lawfirms' => $lawfirms,
+            'lawyers' => $lawyers,
+        ]);
+    }
     public function lawyers(Request $request){
         $id = $request->post_id;
 

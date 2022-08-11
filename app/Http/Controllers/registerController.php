@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 
 use App\Models\User;
+use App\Models\Tokens;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -18,7 +19,7 @@ class registerController extends Controller
     {
         $response = [];
         // return response()->json(['logo' => $request->file('logo')]);
-    
+
         $validator = Validator::make(
             $request->all(),
             [
@@ -29,10 +30,11 @@ class registerController extends Controller
             'role'=> 'required',
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|same:password',
+                'token' => '',
             // 'picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]
         );
-          
+
 
         if ($validator->fails()) {
             return response()->json(['status' => 401,'message' => 'Please fill all fields']);
@@ -45,6 +47,12 @@ class registerController extends Controller
             //  $image->move(public_path().'/uploads/', $imageName);
             //  $url = URL::to("/").'/uploads/'.$imageName;
             // }
+            $token  = $request->token;
+
+            $token_validate = Tokens::where('token',$token)->where('valid','1')->get();
+             if($token_validate->count() > 0){
+
+
         $input = array(
             'name' => $request->name,
             'email'=> $request->email,
@@ -62,7 +70,7 @@ class registerController extends Controller
        if($user){
         return response()->json(['status' => 401,'message' =>'user already exist..']);
        }
-       
+
         $user = User::create($input);
         $token = $user->createToken($user->email.'_Token')->plainTextToken;
         return response()->json([
@@ -71,6 +79,11 @@ class registerController extends Controller
             'token' => $token,
             'message' => 'Registered Successfully',
         ]);
+
+    }else{
+        return response()->json(['status' => 401,'message' =>'Invalid Token Please use the correct token.']);
+
+    }
         };
 
     }
@@ -80,15 +93,15 @@ class registerController extends Controller
             $request->all(),
             [
                 'user_id' => 'required',
-        
+
             ]
         );
-          
+
 
         if ($validator->fails()) {
             return response()->json(['status' => 401,'message' => 'Please fill all fields']);
         }else{
-    
+
         $user_id = $request->user_id;
         $isAuthenticated = $request->isAuthenticated;
 if($isAuthenticated){
@@ -110,20 +123,20 @@ if($isAuthenticated){
             $request->all(),
             [
                 'user_id' => 'required',
-        
+
             ]
         );
-          
+
 
         if ($validator->fails()) {
             return response()->json(['status' => 401,'message' => 'Please fill all fields']);
         }else{
         $user_id = $request->user_id;
-       
+
         $user = User::where('id',$user_id)->update(array('name'=>$request->name,
         'phone'=>$request->phone,'location'=>$request->location,'description'=>$request->description
     ,'surname'=>$request->surname));
-       
+
         return response()->json([
             'status' => 200,
             'message' => 'User updated Successfully',
@@ -131,5 +144,5 @@ if($isAuthenticated){
     }
     }
 
-   
+
 }
