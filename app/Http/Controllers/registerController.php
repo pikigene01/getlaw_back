@@ -17,21 +17,19 @@ class registerController extends Controller
 {
     public function register(Request $request)
     {
-        $response = [];
-        // return response()->json(['logo' => $request->file('logo')]);
 
         $validator = Validator::make(
             $request->all(),
             [
                 'name' => 'required|min:3',
-                'email' => 'required|min:6',
+                // 'email' => 'required|min:6',
                 'phone' => 'required',
                 'description'=> 'required|min:12',
-            'role'=> 'required',
+                'role'=> 'required',
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|same:password',
-                'token' => '',
-            // 'picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                'token' => 'required',
+                'picture_law' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]
         );
 
@@ -39,14 +37,14 @@ class registerController extends Controller
         if ($validator->fails()) {
             return response()->json(['status' => 401,'message' => 'Please fill all fields']);
         }else{
-            // if($request->file('picture')){
-            //  $image = $request->file('logo');
-            //  $var = date_create();
-            //  $date = date_format($var, 'Ymd');
-            //  $imageName = $date.'_'.$image->getClientOriginalName();
-            //  $image->move(public_path().'/uploads/', $imageName);
-            //  $url = URL::to("/").'/uploads/'.$imageName;
-            // }
+            if($request->file('picture_law')){
+             $image = $request->file('picture_law');
+             $var = date_create();
+             $date = date_format($var, 'Ymd');
+             $imageName = $date.'_'.$image->getClientOriginalName();
+             $image->move(public_path().'/uploads/', $imageName);
+             $url = URL::to("/").'/uploads/'.$imageName;
+            }
             $token  = $request->token;
 
             $token_validate = Tokens::where('token',$token)->where('valid','1')->get();
@@ -55,13 +53,16 @@ class registerController extends Controller
 
         $input = array(
             'name' => $request->name,
+            'surname'=>$request->surname,
             'email'=> $request->email,
             'phone'=> $request->phone,
             'description'=> $request->description,
-            'picture'=> '',
+            'picture'=> $url,
             'role'=> $request->role,
             'price'=>$request->price,
+            'location'=>$request->location,
             'isVerified'=>'1',
+            'belongs'=>$request->belongs,
             'password' => bcrypt($request->password),
         );
 
@@ -73,12 +74,21 @@ class registerController extends Controller
 
         $user = User::create($input);
         $token = $user->createToken($user->email.'_Token')->plainTextToken;
-        return response()->json([
-            'status' => 200,
-            'username' => $user->name,
-            'token' => $token,
-            'message' => 'Registered Successfully',
-        ]);
+        if($request->role === '1'){
+            return response()->json([
+                'status' => 200,
+                'username' => $user->name,
+                'user_id' => $user->id,
+                'token' => $token,
+                'message' => 'Lawfirm Successfully',
+            ]);
+        }else{
+            return response()->json([
+                'status' => 401,
+                'message' => 'Lawyer Registered Successfully',
+            ]);
+        }
+
 
     }else{
         return response()->json(['status' => 401,'message' =>'Invalid Token Please use the correct token.']);

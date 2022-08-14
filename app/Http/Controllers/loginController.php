@@ -67,7 +67,13 @@ return view('auth.login');
       $funds = '0';
        }else{
         $user = User::where('id', $request->user_id)->first();
-        $funds = $user->funds;
+        if($user->count() > 0){
+            $funds = $user->funds;
+
+        }else{
+        $funds = 0;
+
+        }
        }
 
        if($request->currency === 'usd'){

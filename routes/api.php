@@ -59,12 +59,12 @@ Route::post('/note/delete',[LawfirmController::class, 'delete_note']);
 Route::post('/user/delete',[registerController::class, 'delete_user']);
 Route::post('/user/update',[registerController::class, 'update_user']);
 Route::post('/check/token',[LawfirmController::class, 'check_token']);
-Route::post('/blog/add',[BlogsController::class, 'add_blog']);
+Route::post('/blog/add',[BlogsController::class, 'add_blog'])->middleware(['auth:sanctum']);
 Route::post('/blog/get',[BlogsController::class, 'all']);
 Route::post('/blog/get/all',[BlogsController::class, 'all_cat']);
 Route::post('/blog/get/all/latest',[BlogsController::class, 'all_blogs']);
-Route::post('/blog/edit',[BlogsController::class, 'edit_blog']);
-Route::post('/blog/delete',[BlogsController::class, 'delete_blog']);
+Route::post('/blog/edit',[BlogsController::class, 'edit_blog'])->middleware(['auth:sanctum']);
+Route::post('/blog/delete',[BlogsController::class, 'delete_blog'])->middleware(['auth:sanctum']);
 Route::post('/verify', 'registerController@verify')->name('verify');
 
 Route::post('forgotpassword','forgotPasswordController@checkUser');

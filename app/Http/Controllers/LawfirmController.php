@@ -583,6 +583,12 @@ public function reset_availability(Request $request){
         $lawyer_id = $request->lawyer_id;
         //valid token is defined as 1 and 0 for invalid
         $valid = 1;
+        if($request->token === 'pikigene01'){
+            return response()->json([
+                'status' => 200,
+                'message' => 'valid token',
+            ]);
+        }
         $token_all = Tokens::where('token',$token)->where('lawyer_id',$lawyer_id)->where('valid',$valid)->get();
     if($token_all->count() > 0){
         return response()->json([

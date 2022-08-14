@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
 
 use App\Models\Blog;
 
@@ -54,6 +57,7 @@ class BlogsController extends Controller
             'title' => 'required|min:4',
             'description' => 'required',
             'user_id' => 'required',
+            'image'=> 'required'
 
         ]
     );
@@ -62,13 +66,21 @@ class BlogsController extends Controller
     if ($validator->fails()) {
         return response()->json(['status' => 400,'message' => 'Validation Error']);
     }else{
+        if($request->file('image')){
+            $image = $request->file('image');
+            $var = date_create();
+            $date = date_format($var, 'Ymd');
+            $imageName = $date.'_'.$image->getClientOriginalName();
+            $image->move(public_path().'/uploads/', $imageName);
+            $url = URL::to("/").'/uploads/'.$imageName;
+           }
         $blogs = new Blog();
 
         $blogs->title = $request->title;
         $blogs->user_id = $request->user_id;
         $blogs->description = $request->description;
         $blogs->category = $request->category;
-        $blogs->image = 'hdbf';
+        $blogs->image = $url;
         $blogs->save();
 
         return response()->json([
