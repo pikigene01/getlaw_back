@@ -103,6 +103,7 @@ class registerController extends Controller
             $request->all(),
             [
                 'user_id' => 'required',
+                'belongs' => 'required'
 
             ]
         );
@@ -115,11 +116,18 @@ class registerController extends Controller
         $user_id = $request->user_id;
         $isAuthenticated = $request->isAuthenticated;
 if($isAuthenticated){
-        $user = User::where('id',$user_id)->delete();
+        $user = User::where('id',$user_id)->where('belongs',$request->belongs)->delete();
+        if($user){
         return response()->json([
             'status' => 200,
             'message' => 'User Deleted Successfully',
         ]);
+    }else{
+        return response()->json([
+            'status' => 400,
+            'message' => 'Not Authorised',
+        ]);
+    }
     }else{
         return response()->json([
             'status' => 400,
