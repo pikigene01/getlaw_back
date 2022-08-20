@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\LawfirmsReviews;
 use App\Models\Bookings;
 use App\Models\Notes;
 use App\Models\Notifications;
 use App\Models\Money_stats;
+use App\Models\Money;
 use App\Models\Blog;
 use App\Models\LiveChat;
 use App\Models\Tokens;
@@ -238,7 +240,60 @@ class LawfirmController extends Controller
             $bookings_exist = Bookings::where('token',$request->token)
             ->where('lawyer_id',$request->lawyer_id)->first();
             if(!$bookings_exist){
-          $bookings = new Bookings();
+
+          $money_get_user  = User::where('id',$request->lawyer_id)->first();
+          $money_get_user_lawfirm  = User::where('id',$money_get_user->belongs)->first();
+          $price = $money_get_user_lawfirm->price;
+          $deposit_money = 50 / 100 * $price;
+
+        $money_model = Money::where('user_id', $request->lawyer_id)->get();
+        if($money_model->count() > 0){
+        foreach($money_model as $money_data){
+            $funds_from_db = $money_data->funds;
+            $add_money = $funds_from_db +  $deposit_money;
+           $update_money = Money::where('user_id',$request->lawyer_id)
+           ->update(array('funds'=>$add_money));
+           $update_user = User::where('id',$request->lawyer_id)
+           ->update(array('funds'=>$add_money));
+
+        }
+        $mail_info = User::findOrFail($request->lawyer_id)->first();
+
+        // Mail::send('email.money_notify', ['funds' =>$deposit_money, 'email' => $mail_info->email], function ($message) use ($request) {
+        //     $mail_info = User::findOrFail($request->lawyer_id)->first();
+        //     $message->to($mail_info->email);
+        //     $message->subject('GetLaw Notifications');
+        //     return response()->json([
+        //         'status' => 400,
+        //         'message' => 'You successfully scheduled',
+        //     ]);
+        // });
+        }else{
+            $save_money = new Money();
+            $save_money->user_id = $request->lawyer_id;
+            $save_money->funds = $deposit_money;
+            $save_money->token = $request->token;
+            $save_money->save();
+            $update_user = User::where('id',$request->lawyer_id)
+            ->update(array('funds'=>$deposit_money));
+         $mail_info = User::where('id',$request->lawyer_id)->first();
+         $notify = new Notifications();
+          $notify->to_id = $request->lawyer_id;
+          $notify->notification = "Your account have been added: $ $deposit_money ";
+          $notify->status = 'unread';
+          $notify->save();
+        //   Mail::send('email.money_notify', ['funds' =>$deposit_money, 'email' => $mail_info->email], function ($message) use ($request) {
+        //     $mail_info = User::where('id',$request->lawyer_id)->first();
+        //     $message->to($mail_info->email);
+        //     $message->subject('GetLaw Notifications');
+        //     return response()->json([
+        //         'status' => 400,
+        //         'message' => 'You successfully scheduled',
+        //     ]);
+        // });
+
+        }
+        $bookings = new Bookings();
 
           $bookings->lawyer_id = $request->lawyer_id;
           $bookings->token = $request->token;

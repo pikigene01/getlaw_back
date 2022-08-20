@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Money extends Model
 {
     use HasFactory;
+    protected $fillable = [
+
+        'funds',
+        'user_id',
+        'token',
+    ];
+
 }

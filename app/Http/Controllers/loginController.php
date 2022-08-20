@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Money;
 use App\Models\Currencyrates;
 use App\Models\Notifications;
 
@@ -66,7 +67,7 @@ return view('auth.login');
        if(empty($user_id)){
       $funds = '0';
        }else{
-        $user = User::where('id', $request->user_id)->first();
+        $user = Money::where('user_id', $request->user_id)->first();
         if($user->count() > 0){
             $funds = $user->funds;
 
