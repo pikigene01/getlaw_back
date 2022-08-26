@@ -235,7 +235,7 @@ class LawfirmController extends Controller
         if ($validator->fails()) {
             return response()->json(['status' => 401,'message' => 'Please insert valid token']);
         }else{
-        $token_all = Tokens::where('token',$token)->where('lawyer_id',$request->lawyer_id)->where('valid','1')->get();
+        $token_all = Tokens::where('token',$token)->where('lawyer_id',$request->lawyer_id)->orWhere('lawyer_id',$request->lawfirm_id)->where('valid','1')->get();
           if($token_all->count() > 0){
             $bookings_exist = Bookings::where('token',$request->token)
             ->where('lawyer_id',$request->lawyer_id)->first();
@@ -712,6 +712,13 @@ public function reset_availability(Request $request){
         $ecocashnumber = $request->ecocashnumber;
         $lawfirm_id = $request->lawfirm_id;
         $price = $request->lawfirm_price;
+        $token_save = new Tokens();
+        $token_save->token = $token;
+        $token_save->lawyer_id = $lawfirm_id;
+        $token_save->valid = '1';
+        $token_save->save();
+
+
         $paynow = new Paynow(
             '14927',
             '36f183ee-bdfe-4226-aff5-ed0d472904f0',
