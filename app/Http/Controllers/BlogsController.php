@@ -8,11 +8,14 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 
+
 use App\Models\Blog;
 
 
 class BlogsController extends Controller
 {
+
+
    public function all(Request $request){
     $user_id = $request->user_id;
         $blogs = Blog::where('user_id', $user_id)->get();

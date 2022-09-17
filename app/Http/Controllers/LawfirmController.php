@@ -644,7 +644,8 @@ public function reset_availability(Request $request){
                 'message' => 'valid token',
             ]);
         }
-        $token_all = Tokens::where('token',$token)->where('lawyer_id',$lawyer_id)->where('valid',$valid)->get();
+        $token_all = Tokens::where('token',$token)
+        ->orWhere('lawyer_id',$lawyer_id)->where('valid',$valid)->get();
     if($token_all->count() > 0){
         return response()->json([
             'status' => 200,

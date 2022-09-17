@@ -67,7 +67,7 @@ return view('auth.login');
        if(empty($user_id)){
       $funds = '0';
        }else{
-        $user = Money::where('user_id', $request->user_id)->first();
+        $user = Money::where('user_id', $request->user_id)->get();
         if($user->count() > 0){
             $funds = $user->funds;
 
