@@ -72,7 +72,7 @@ class LawfirmController extends Controller
         $count_reviews_for_each_post = [];
         $post_reviews_perc = [];
         $new_count = "";
-        $user = User::inRandomOrder()->where('role','=',$role)->Limit('15')
+        $user = User::inRandomOrder()->where('role','=',$role)->Limit('200')
         // ->join('reviews.id','users.id')
         ->get();
         // dd($post_reviews_perc);
