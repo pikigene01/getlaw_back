@@ -64,11 +64,13 @@ return view('auth.login');
     }
    public function funds(Request $request){
        $user_id = $request->user_id;
+
        if(empty($user_id)){
       $funds = '0';
        }else{
         $user = Money::where('user_id', $request->user_id)->get();
         if($user->count() > 0){
+            foreach($user as $user)
             $funds = $user->funds;
 
         }else{

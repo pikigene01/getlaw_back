@@ -17,7 +17,7 @@ class CreateBookingsTable extends Migration
             $table->id();
             $table->string('data_date');
             $table->string('data_event');
-            $table->string('token');
+            $table->string('token')->nullable();
             $table->integer('lawyer_id');
             $table->integer('confirmed')->default(0);
             $table->integer('type')->default(0);

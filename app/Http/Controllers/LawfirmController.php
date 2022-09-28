@@ -27,6 +27,8 @@ class LawfirmController extends Controller
     }
     public function all(Request $request){
         // $role = $request->role;
+        $user_latitude = $request->latitude;
+        $user_longitude = $request->longitude;
         $role = "1";
         $count_reviews_for_each_post = [];
         $post_reviews_perc = [];

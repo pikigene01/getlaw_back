@@ -29,6 +29,8 @@ class registerController extends Controller
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|same:password',
                 'token' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required',
                 'picture_law' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]
         );
@@ -63,6 +65,8 @@ class registerController extends Controller
             'location'=>$request->location,
             'isVerified'=>'1',
             'belongs'=>$request->belongs,
+            'latitude'=>$request->latitude,
+            'longitude'=>$request->longitude,
             'password' => bcrypt($request->password),
         );
 
