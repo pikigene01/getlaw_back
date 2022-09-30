@@ -29,8 +29,8 @@ class registerController extends Controller
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|same:password',
                 'token' => 'required',
-                'latitude' => 'required',
-                'longitude' => 'required',
+                'latitude' => 'required|min:4',
+                'longitude' => 'required|min:4',
                 'picture_law' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]
         );
