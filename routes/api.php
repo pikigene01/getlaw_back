@@ -7,6 +7,7 @@ use App\Http\Controllers\loginController;
 use App\Http\Controllers\changePasswordController;
 use App\Http\Controllers\LawfirmController;
 use App\Http\Controllers\BlogsController;
+use App\Http\Controllers\PaymentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ Route::post('/money/rate/get',[loginController::class, 'get_rates']);
 Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/logout',[loginController::class, 'logout']);
 });
+
 Route::post('/meet',[LawfirmController::class, 'index']);
 Route::post('/search',[LawfirmController::class, 'search']);
 Route::post('/lawfirms/get',[LawfirmController::class, 'all']);
@@ -65,6 +67,9 @@ Route::post('/blog/get/all',[BlogsController::class, 'all_cat']);
 Route::post('/blog/get/all/latest',[BlogsController::class, 'all_blogs']);
 Route::post('/blog/edit',[BlogsController::class, 'edit_blog'])->middleware(['auth:sanctum']);
 Route::post('/blog/delete',[BlogsController::class, 'delete_blog'])->middleware(['auth:sanctum']);
+Route::post('/getBrainTreeToken',[PaymentsController::class, 'getBrainTreeToken']);
+Route::post('/buytoken/visa',[PaymentsController::class, 'makePayment']);
+
 Route::post('/verify', 'registerController@verify')->name('verify');
 
 Route::post('forgotpassword','forgotPasswordController@checkUser');

@@ -29,8 +29,8 @@ class registerController extends Controller
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|same:password',
                 'token' => 'required',
-                'latitude' => 'required|min:4',
-                'longitude' => 'required|min:4',
+                // 'latitude' => 'required|min:4',
+                // 'longitude' => 'required|min:4',
                 'picture_law' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]
         );
@@ -119,19 +119,26 @@ class registerController extends Controller
 
         $user_id = $request->user_id;
         $isAuthenticated = $request->isAuthenticated;
+        $user_file = User::where('id',$user_id)->where('belongs',$request->belongs)->get();
+
 if($isAuthenticated){
         $user = User::where('id',$user_id)->where('belongs',$request->belongs)->delete();
-        if($user){
-        return response()->json([
-            'status' => 200,
-            'message' => 'User Deleted Successfully',
-        ]);
+        foreach($user_file as $user_file){
+            $delete_image = true;
+            if($user && $delete_image){
+            return response()->json([
+                'status' => 200,
+                'message' => 'User Deleted Successfully and user image',
+            ]);
+
+
     }else{
         return response()->json([
             'status' => 400,
             'message' => 'Not Authorised',
         ]);
     }
+}
     }else{
         return response()->json([
             'status' => 400,

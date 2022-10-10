@@ -754,6 +754,7 @@ public function reset_availability(Request $request){
         ]);
     }
     }
+    
     public function withdraw_money(Request $request){
 
     }
