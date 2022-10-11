@@ -715,11 +715,11 @@ public function reset_availability(Request $request){
         $ecocashnumber = $request->ecocashnumber;
         $lawfirm_id = $request->lawfirm_id;
         $price = $request->lawfirm_price;
-        $token_save = new Tokens();
-        $token_save->token = $token;
-        $token_save->lawyer_id = $lawfirm_id;
-        $token_save->valid = '1';
-        $token_save->save();
+        // $token_save = new Tokens();
+        // $token_save->token = $token;
+        // $token_save->lawyer_id = $lawfirm_id;
+        // $token_save->valid = '1';
+        // $token_save->save();
 
 
         $paynow = new Paynow(
@@ -754,7 +754,7 @@ public function reset_availability(Request $request){
         ]);
     }
     }
-    
+
     public function withdraw_money(Request $request){
 
     }

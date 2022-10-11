@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Tokens;
+
 
 class PaymentsController extends Controller
 {
@@ -25,17 +27,28 @@ class PaymentsController extends Controller
         $data = $request->validate([
             'nonce' => 'required',
         ]);
+        $price = $request->lawfirm_price;
 
-        $nonceFromTheClient = $data['nonce'];
+
+        $nonceFromTheClient = $request->nonce;
         try {
             $response = $this->gateway()->transaction()->sale([
-                'amount' => '10.0',
+                'amount' => $price,
                 'paymentMethodNonce' => $nonceFromTheClient,
                 'options' => [
                     'submitForSettlement' => True
                 ]
             ]);
+            $token = "qwergttyuiopasdfghjklzxcvbnm12345467890!@#$%^&*()";
 
+            $token = str_shuffle($token);
+            $token = substr($token, 4, 13);
+            $lawfirm_id = $request->lawfirm_id;
+            $token_save = new Tokens();
+            $token_save->token = $token;
+            $token_save->lawyer_id = $lawfirm_id;
+            $token_save->valid = '1';
+            $token_save->save();
             return response()->json([
                 'status'=>200,
                 'message'=> 'Token svaed',
@@ -45,12 +58,15 @@ class PaymentsController extends Controller
                 'currency' => $response->transaction->currencyIsoCode,
                 'payment_method' => $response->transaction->paymentInstrumentType,
                 'status_url' => $response->transaction->type,
+                'token'=>$token,
+
 
            ]);   } catch (\Throwable $th) {
             $th->getMessage();
             return response()->json([
                 'status'=>400,
-                'message'=> 'Failed to buy the token',
+                'message'=> $th->getMessage(),
+                'token'=>$th->getMessage(),
            ]);
         }
        }
