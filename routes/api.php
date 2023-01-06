@@ -29,7 +29,6 @@ Route::post('/money/rate/get',[loginController::class, 'get_rates']);
 Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/logout',[loginController::class, 'logout']);
 });
-
 Route::post('/meet',[LawfirmController::class, 'index']);
 Route::post('/search',[LawfirmController::class, 'search']);
 Route::post('/lawfirms/get',[LawfirmController::class, 'all']);
@@ -43,7 +42,7 @@ Route::post('/lawyers/get/all',[LawfirmController::class, 'lawyers_all']);
 Route::post('/post/review',[LawfirmController::class, 'save_review']);
 Route::post('/schedule/sent',[LawfirmController::class, 'save_schedule']);
 Route::post('/schedule/get',[LawfirmController::class, 'get_schedule']);
-Route::post('/set/availability',[LawfirmController::class, 'set_availability'])->middleware(['auth:sanctum']);
+Route::post('/set/availabilty',[LawfirmController::class, 'set_availability'])->middleware(['auth:sanctum']);
 Route::post('/reset/availability',[LawfirmController::class, 'reset_availability'])->middleware(['auth:sanctum']);
 Route::post('/dashboard/all',[LawfirmController::class, 'dash_board']);
 Route::post('/get/reviews',[LawfirmController::class, 'get_review']);
