@@ -60,14 +60,13 @@ class BlogsController extends Controller
             'title' => 'required|min:4',
             'description' => 'required',
             'user_id' => 'required',
-            'image'=> 'required'
-
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]
     );
 
 
     if ($validator->fails()) {
-        return response()->json(['status' => 400,'message' => 'Validation Error']);
+        return response()->json(['status' => 404,'errors'=>$validator->getMessageBag(),'message' => 'validation error']);
     }else{
         if($request->file('image')){
             $image = $request->file('image');

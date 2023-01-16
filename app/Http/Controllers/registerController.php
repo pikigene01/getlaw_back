@@ -17,18 +17,19 @@ class registerController extends Controller
 {
     public function register(Request $request)
     {
-
+        $price = 0;
         $validator = Validator::make(
             $request->all(),
             [
                 'name' => 'required|min:3',
-                // 'email' => 'required|min:6',
+                'email' => 'required|min:6',
                 'phone' => 'required',
                 'description'=> 'required|min:12',
                 'role'=> 'required',
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|same:password',
                 'token' => 'required',
+                // 'location' => 'required',
                 // 'latitude' => 'required|min:4',
                 // 'longitude' => 'required|min:4',
                 'picture_law' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
@@ -37,7 +38,7 @@ class registerController extends Controller
 
 
         if ($validator->fails()) {
-            return response()->json(['status' => 401,'message' => 'Please fill all fields']);
+            return response()->json(['status' => 404,'errors'=>$validator->getMessageBag(),'message' => 'validation error']);
         }else{
             if($request->file('picture_law')){
              $image = $request->file('picture_law');
@@ -53,6 +54,12 @@ class registerController extends Controller
              if($token_validate->count() > 0){
 
 
+  if(empty($request->price)){
+    $price = 0;
+  }else{
+    $price = $request->price;
+  }
+
         $input = array(
             'name' => $request->name,
             'surname'=>$request->surname,
@@ -61,7 +68,7 @@ class registerController extends Controller
             'description'=> $request->description,
             'picture'=> $url,
             'role'=> $request->role,
-            'price'=>$request->price,
+            'price'=>$price,
             'location'=>$request->location,
             'isVerified'=>'1',
             'belongs'=>$request->belongs,
@@ -121,7 +128,7 @@ class registerController extends Controller
         $isAuthenticated = $request->isAuthenticated;
         $user_file = User::where('id',$user_id)->where('belongs',$request->belongs)->get();
 
-if($isAuthenticated){
+         if($isAuthenticated){
         $user = User::where('id',$user_id)->where('belongs',$request->belongs)->delete();
         foreach($user_file as $user_file){
             $delete_image = true;

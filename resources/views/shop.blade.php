@@ -7,5 +7,5 @@
 @stop
 
 @section('content')
-<h1>GetLaw API</p>
+<h1>GrinIt API</p>
 @stop

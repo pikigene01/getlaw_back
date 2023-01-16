@@ -38,7 +38,8 @@ return view('auth.login');
 
 
         if ($validator->fails()) {
-            return response()->json(['status'=>400,'message' =>' validation error']);
+            return response()->json(['status' => 404,'errors'=>$validator->getMessageBag(),'message' => 'validation error']);
+
         }else{
             $user = User::where('email', $request->email)->first();
 
@@ -55,7 +56,7 @@ return view('auth.login');
                     'username' => $user->name,
                     'user_id' => $user->id,
                     'token' => $token,
-                    'message' => 'Logged IN Successfully By GetLaw',
+                    'message' => 'Logged IN Successfully By GrinIt',
                 ]);
 
             }

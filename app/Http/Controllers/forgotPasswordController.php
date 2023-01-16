@@ -8,13 +8,29 @@ use Twilio\Rest\Client;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 
-class forgotPasswordController extends Controller
+class ForgotPasswordController extends Controller
 {
-    //find user 
-    //send otp to user 
+    //find user
+    //send otp to user
     //verfy otp
-    //success 
-    //change password 
+    //success
+    //change password
+    public function forgot_pass(Request $request){
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email' => 'required|max:191',
+                'password' => 'required',
+
+            ]
+        );
+
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 404,'errors'=>$validator->getMessageBag(),'message' => 'validation error']);
+
+        }
+    }
 
     public function checkUser(Request $request){
         $data = User::where('phone_number', $request->phone_number)->first();
@@ -22,12 +38,12 @@ class forgotPasswordController extends Controller
             //change user verification to false
             $user = tap(User::where('phone_number', $data['phone_number']))
                     ->update(['isVerified'=>false]);
-            //continue here 
+            //continue here
             $token = getenv("TWILIO_AUTH_TOKEN");
             $twilio_sid = getenv("TWILIO_SID");
             $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
             $twilio = new Client($twilio_sid, $token);
-   
+
            $verification = $twilio->verify->v2->services($twilio_verify_sid)
                 ->verifications
                 ->create($request['phone_number'], "sms");
@@ -51,7 +67,7 @@ class forgotPasswordController extends Controller
         $token = getenv("TWILIO_AUTH_TOKEN");
         $twilio_sid = getenv("TWILIO_SID");
         $twilio_verify_sid = getenv("TWILIO_VERIFY_SID");
-       
+
         $twilio = new Client($twilio_sid, $token);
 
         $verification_check = $twilio->verify->v2->services($twilio_verify_sid)
@@ -98,7 +114,7 @@ class forgotPasswordController extends Controller
 
     public function user(){
         $users = User::all();
-       
+
         foreach($users as $user){
             $user->delete();
         }

@@ -27,7 +27,7 @@ class PaymentsController extends Controller
         $data = $request->validate([
             'nonce' => 'required',
         ]);
-        $price = $request->lawfirm_price;
+        $price = $request->room_price;
 
 
         $nonceFromTheClient = $request->nonce;
@@ -43,10 +43,10 @@ class PaymentsController extends Controller
 
             $token = str_shuffle($token);
             $token = substr($token, 4, 13);
-            $lawfirm_id = $request->lawfirm_id;
+            $room_id = $request->room_id;
             $token_save = new Tokens();
             $token_save->token = $token;
-            $token_save->lawyer_id = $lawfirm_id;
+            $token_save->creator_id = $room_id;
             $token_save->valid = '1';
             $token_save->save();
             return response()->json([

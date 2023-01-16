@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>GetLaw API</title>
+        <title>GrinIt API</title>
 
         <style>
             body {
@@ -12,7 +12,7 @@
             }
         </style>
 
-<meta name="keywords" content="GetLaw API" />
+<meta name="keywords" content="GrinIt API" />
     </head>
     <body class="antialiased common-home">
 

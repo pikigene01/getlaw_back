@@ -1,4 +1,4 @@
-<h1>GetLaw Notifications</h1>
+<h1>GrinIt Notifications</h1>
 
-Proudly GetLaw Member By Gene Piki:
+Proudly GrinIt Member By Gene Piki:
 

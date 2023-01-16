@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             $table->boolean('isVerified')->default(false);
             $table->boolean('funds')->default('0');
             $table->boolean('reviews')->default('0');
-            $table->boolean('lawyers')->default('0');
+            $table->boolean('rooms')->default('0');
             $table->string('password');
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();

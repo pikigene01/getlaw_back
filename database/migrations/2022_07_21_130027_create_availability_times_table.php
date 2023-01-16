@@ -15,7 +15,7 @@ class CreateAvailabilityTimesTable extends Migration
     {
         Schema::create('availability_times', function (Blueprint $table) {
             $table->id();
-            $table->integer('lawyer_id');
+            $table->integer('creator_id');
             $table->string('times_available');
             $table->timestamps();
         });
