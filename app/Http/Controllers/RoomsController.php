@@ -170,8 +170,7 @@ class RoomsController extends Controller
     }
     public function creators_all(Request $request){
         $role = $request->role;
-
-        $creators = User::where('role',$role)->get();
+        $creators = User::inRandomOrder()->where('role',$role)->orderBy('id','ASC')->get();
 
         return response()->json([
             'status' => 200,
