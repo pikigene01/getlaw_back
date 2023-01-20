@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Tokens;
+use App\Models\Bookings;
 
 
 class TokenController extends Controller
@@ -15,6 +16,7 @@ class TokenController extends Controller
             [
                 'token' => 'required|min:8',
                 'valid' => 'required',
+                'confirmed' => 'required',
 
             ]
         );
@@ -25,6 +27,7 @@ class TokenController extends Controller
             return response()->json(['status' => 401,'message' => 'cofirmation wiil be done on client side']);
         }else{
             $token_update = Tokens::where('token',$token)->update(array('valid'=>$request->valid));
+            $token_update = Bookings::where('token',$token)->update(array('confirmed'=>$request->confirmed));//f confirned 1
             return response()->json(['status' => 200,'message' => 'room confirmed']);
 
         }

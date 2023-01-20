@@ -247,7 +247,7 @@ class RoomsController extends Controller
 
 
         if ($validator->fails()) {
-            return response()->json(['status' => 401,'message' => 'Please insert valid token']);
+            return response()->json(['status' => 401,'message' => 'validation error']);
         }else{
         $token_all = Tokens::where('token',$token)->where('creator_id',$request->creator_id)->orWhere('creator_id',$request->room_id)->where('valid','1')->get();
           if($token_all->count() > 0){
@@ -613,7 +613,7 @@ public function reset_availability(Request $request){
 
     }
     public function delete_msg(Request $request){
-               $id = $request->id;
+          $id = $request->id;
 
           $Livechat_msgs = LiveChat::findOrFail($id);
           $Livechat_msgs->delete();
@@ -811,10 +811,6 @@ public function reset_availability(Request $request){
 
         ]);
     }
-    }
-
-    public function withdraw_money(Request $request){
-
     }
 
     public function paymoney(Request $request){

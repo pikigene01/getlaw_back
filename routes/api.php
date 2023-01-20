@@ -10,6 +10,7 @@ use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\TokenController;
+use App\Http\Controllers\Withdrawal;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +52,8 @@ Route::post('/get/reviews',[RoomsController::class, 'get_review']);
 Route::post('/promotions',[RoomsController::class, 'promotion']);
 Route::post('/get/token/eco',[RoomsController::class, 'get_token_eco']);
 Route::post('/user_profile/get',[RoomsController::class, 'user_profile']);
-Route::post('/withdraw/money',[RoomsController::class, 'withdraw_money'])->middleware(['auth:sanctum']);
+Route::post('/withdraw/money/get',[Withdrawal::class, 'withdraw_money'])->middleware(['auth:sanctum']);
+Route::post('/withdraw/money/save',[Withdrawal::class, 'withdraw_money_save'])->middleware(['auth:sanctum']);
 Route::post('/note/add',[RoomsController::class, 'add_note'])->middleware(['auth:sanctum']);
 Route::post('/note/update',[RoomsController::class, 'update_note'])->middleware(['auth:sanctum']);
 Route::post('/message/save',[RoomsController::class, 'add_msg'])->middleware(['auth:sanctum']);
