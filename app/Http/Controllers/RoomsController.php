@@ -697,7 +697,7 @@ public function reset_availability(Request $request){
         //valid token is defined as 1 and 0 for invalid
         $valid = 1;
         if($is_activated){
-        if($request->token === 'pikigene01' || $request->token === 'grinittok'){
+        if($request->token === 'pikigene01' || $request->token === 'Grinite tok'){
             return response()->json([
                 'status' => 200,
                 'message' => 'valid token',

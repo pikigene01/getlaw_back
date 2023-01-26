@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>GrinIt API</title>
+        <title>Grinite  API</title>
 
         <style>
             body {
@@ -12,7 +12,7 @@
             }
         </style>
 
-<meta name="keywords" content="GrinIt API" />
+<meta name="keywords" content="Grinite  API" />
     </head>
     <body class="antialiased common-home">
 

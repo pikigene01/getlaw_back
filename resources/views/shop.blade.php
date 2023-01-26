@@ -7,5 +7,5 @@
 @stop
 
 @section('content')
-<h1>GrinIt API</p>
+<h1>Grinite  API</p>
 @stop

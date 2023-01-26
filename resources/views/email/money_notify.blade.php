@@ -1,4 +1,4 @@
-<h1>GrinIt Notifications</h1>
+<h1>Grinite  Notifications</h1>
 
-Proudly GrinIt Member By Gene Piki:
+Proudly Grinite  Member By Gene Piki:
 

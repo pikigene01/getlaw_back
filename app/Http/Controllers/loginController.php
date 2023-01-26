@@ -56,7 +56,7 @@ return view('auth.login');
                     'username' => $user->name,
                     'user_id' => $user->id,
                     'token' => $token,
-                    'message' => 'Logged IN Successfully By GrinIt',
+                    'message' => 'Logged IN Successfully By Grinite ',
                 ]);
 
             }
