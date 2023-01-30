@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMoneyWithdrawalsTable extends Migration
+class CreatePrivacyPoliciesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateMoneyWithdrawalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('money_withdrawals', function (Blueprint $table) {
+        Schema::create('privacy_policies', function (Blueprint $table) {
             $table->id();
-            $table->string('money_to_withdraw');
-            $table->string('account');
-            $table->string('status');
-            $table->integer('user_id');
+            $table->longText('html_data');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateMoneyWithdrawalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('money_withdrawals');
+        Schema::dropIfExists('privacy_policies');
     }
 }

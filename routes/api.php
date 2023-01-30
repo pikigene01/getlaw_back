@@ -11,6 +11,7 @@ use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\Withdrawal;
+use App\Http\Controllers\PrivacyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,6 +75,8 @@ Route::post('/blog/delete',[BlogsController::class, 'delete_blog'])->middleware(
 Route::post('/getBrainTreeToken',[PaymentsController::class, 'getBrainTreeToken']);
 Route::post('/buytoken/visa',[PaymentsController::class, 'makePayment']);
 Route::post('/room/confirmed',[TokenController::class, 'updateToken']);
+Route::post('/privacyPolicy/add',[PrivacyController::class, 'save_privacy']);
+Route::post('/privacyPolicy/get',[PrivacyController::class, 'get_html_data']);
 
 Route::post('/verify', 'registerController@verify')->name('verify');
 

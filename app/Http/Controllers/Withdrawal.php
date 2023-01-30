@@ -25,6 +25,7 @@ class Withdrawal extends Controller
             $request->all(),
             [
                 'user_id' => 'required',
+                'account' => 'required',
                 'money_to_withdraw' => 'required',
 
             ]
@@ -38,6 +39,7 @@ class Withdrawal extends Controller
          $MoneyWithdrawal = new MoneyWithdrawal();
          $MoneyWithdrawal->money_to_withdraw = $request->money_to_withdraw;
          $MoneyWithdrawal->user_id = $request->user_id;
+         $MoneyWithdrawal->account = $request->account;
          $MoneyWithdrawal->status = 'pending';//status can be changes later to collected if user money is send
          $MoneyWithdrawal->save();
          $money_model = Money::where('user_id', $request->user_id)->get();
