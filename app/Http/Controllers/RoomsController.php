@@ -257,7 +257,7 @@ class RoomsController extends Controller
 
           $money_get_user  = User::where('id',$request->creator_id)->first();
           $money_get_user_lawfirm  = User::where('id',$money_get_user->belongs)->first();
-          $price = $money_get_user_lawfirm->price;
+          $price = $money_get_user_lawfirm->price;//we want to get money from created token
           $deposit_money = 50 / 100 * $price;
 
         $money_model = Money::where('user_id', $request->creator_id)->get();

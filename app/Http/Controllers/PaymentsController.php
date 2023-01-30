@@ -36,6 +36,7 @@ class PaymentsController extends Controller
             $token_save->token = $token;
             $token_save->creator_id = $room_id;
             $token_save->valid = '1';
+            $token_save->money = $price;
             $token_save->save();
             return response()->json([
                 'status'=>200,
@@ -68,6 +69,7 @@ class PaymentsController extends Controller
             $token_save->token = $token;
             $token_save->creator_id = $room_id;
             $token_save->valid = '1';
+            $token_save->money = $price;
             $token_save->save();
             return response()->json([
                 'status'=>200,

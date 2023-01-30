@@ -18,6 +18,7 @@ class CreateTokensTable extends Migration
             $table->string('token')->nullable();
             $table->string('creator_id')->default(0);
             $table->string('valid')->default(1);
+            $table->string('price')->default(0);
             $table->timestamps();
         });
     }

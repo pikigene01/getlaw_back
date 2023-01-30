@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GeneController;
 use App\Http\Controllers\RobController;
+use App\Http\Controllers\MailController;
+
 
 Route::get('/gene', [RobController::class, 'index']);
 
@@ -23,6 +25,7 @@ Route::get('/', function () {
 Route::get('*', function () {
     return view('welcome');
 });
+Route::get('/mail',[MailController::class, 'html_mail']);
 
 
 // Route::get('rob', 'RobController@index')->name('rob');
