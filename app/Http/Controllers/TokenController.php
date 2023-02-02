@@ -27,7 +27,7 @@ class TokenController extends Controller
             return response()->json(['status' => 401,'message' => 'cofirmation wiil be done on client side']);
         }else{
             $token_update = Tokens::where('token',$token)->update(array('valid'=>$request->valid));
-            $token_update = Bookings::where('token',$token)->update(array('confirmed'=>$request->confirmed));//f confirned 1
+            $token_update_bookings = Bookings::where('token',$token)->update(array('confirmed'=>'1'));//f confirned 1
             return response()->json(['status' => 200,'message' => 'room confirmed']);
 
         }

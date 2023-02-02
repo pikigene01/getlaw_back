@@ -257,7 +257,9 @@ class RoomsController extends Controller
 
           $money_get_user  = User::where('id',$request->creator_id)->first();
           $money_get_user_lawfirm  = User::where('id',$money_get_user->belongs)->first();
-          $price = $money_get_user_lawfirm->price;//we want to get money from created token
+        $token_price = Tokens::where('token',$token)->where('valid','1')->first();
+        //   $price = $money_get_user_lawfirm->price;//we want to get money from created token
+          $price = $token_price->price;//we want to get money from created token
           $deposit_money = 50 / 100 * $price;
 
         $money_model = Money::where('user_id', $request->creator_id)->get();
@@ -704,13 +706,28 @@ public function reset_availability(Request $request){
             ]);
         }
     }
+
         $token_all = Tokens::where('token',$token)
-        ->orWhere('creator_id',$creator_id)->where('valid',$valid)->get();
+        // ->orWhere('creator_id',$creator_id)
+        ->where('valid',$valid)->get();
     if($token_all->count() > 0){
+      foreach($token_all as $row){
+       $room_id = $row->creator_id;
+       $grab_user = User::where('belongs',$room_id)->first();
+       if($grab_user){
         return response()->json([
             'status' => 200,
             'message' => 'valid token',
         ]);
+       }else{
+        return response()->json([
+            'status' => 400,
+            'message' => 'invalid token',
+        ]);
+       }
+
+      }
+
     }else{
         return response()->json([
             'status' => 400,

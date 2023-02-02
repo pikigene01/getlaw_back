@@ -8,6 +8,7 @@ use App\Models\Tokens;
 
 class PaymentsController extends Controller
 {
+
     public function getBrainTreeToken(Request $request){
 
         $clientToken = $this->gateway()->clientToken()->generate();
@@ -16,9 +17,8 @@ class PaymentsController extends Controller
         return response()->json([
             'status'=>200,
             'nonce'=> $clientToken,
-            'message'=> 'user not authenticated',
+            'message'=>  'authenticated',
        ]);
-
 
        }
 
@@ -36,7 +36,7 @@ class PaymentsController extends Controller
             $token_save->token = $token;
             $token_save->creator_id = $room_id;
             $token_save->valid = '1';
-            $token_save->money = $price;
+            $token_save->price = $price;
             $token_save->save();
             return response()->json([
                 'status'=>200,
