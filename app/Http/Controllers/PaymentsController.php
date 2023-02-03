@@ -69,17 +69,17 @@ class PaymentsController extends Controller
             $token_save->token = $token;
             $token_save->creator_id = $room_id;
             $token_save->valid = '1';
-            $token_save->money = $price;
+            $token_save->price = $price;
             $token_save->save();
             return response()->json([
                 'status'=>200,
                 'message'=> 'Token svaed',
-                'reference' => $response->transaction->id,
-                'status' => $response->transaction->status,
-                'amount' => $response->transaction->amount,
-                'currency' => $response->transaction->currencyIsoCode,
-                'payment_method' => $response->transaction->paymentInstrumentType,
-                'status_url' => $response->transaction->type,
+                // 'reference' => $response->transaction->id,
+                // 'status' => $response->transaction->status,
+                // 'amount' => $response->transaction->amount,
+                // 'currency' => $response->transaction->currencyIsoCode,
+                // 'payment_method' => $response->transaction->paymentInstrumentType,
+                // 'status_url' => $response->transaction->type,
                 'token'=>$token,
 
 

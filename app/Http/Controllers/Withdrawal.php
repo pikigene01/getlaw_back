@@ -17,7 +17,22 @@ class Withdrawal extends Controller
     }
 
     public function withdraw_money(Request $request){
-        return json_encode(array('status'=>200,'message'=>'withdraw money get'));
+        $status = '';
+        if($request->status == 'update'){
+            $withdrawals_get_stat = MoneyWithdrawal::where('id',$request->money_id)->first();
+            $status = $withdrawals_get_stat->status;
+            if($status == 'pending'){
+          $status = 'withdrawed';
+            }else{
+          $status = 'pending';
+
+            }
+            $withdrawals_update = MoneyWithdrawal::where('id',$request->money_id)
+            ->update(array('status'=>$status));
+
+        }
+        $withdrawals = MoneyWithdrawal::orderBy('created_at','DESC')->get();
+        return json_encode(array('status'=>200,'message'=>'withdraw money ' .$status,'data'=>$withdrawals));
 
     }
     public function withdraw_money_save(Request $request){
