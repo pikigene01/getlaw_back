@@ -18,6 +18,7 @@ class registerController extends Controller
     public function register(Request $request)
     {
         $price = 0;
+        $token_validate = [];
         $validator = Validator::make(
             $request->all(),
             [
@@ -49,16 +50,21 @@ class registerController extends Controller
              $url = URL::to("/").'/uploads/'.$imageName;
             }
             $token  = $request->token;
+          if($request->role == 2){
+            $token_validate = Tokens::get();
 
+          }else{
             $token_validate = Tokens::where('token',$token)->where('valid','1')->get();
+
+          }
              if($token_validate->count() > 0){
 
 
-  if(empty($request->price)){
-    $price = 0;
-  }else{
-    $price = $request->price;
-  }
+                if(empty($request->price)){
+                    $price = 0;
+                }else{
+                    $price = $request->price;
+                }
 
         $input = array(
             'name' => $request->name,
