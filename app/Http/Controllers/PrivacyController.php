@@ -29,7 +29,7 @@ class PrivacyController extends Controller
         return response()->json([
             'status' => 200,
             'html_data'=> $data->html_data,
-            'message' => 'Logged IN Successfully By Grinite ',
+            'message' => 'Logged IN Successfully By Connectcurb ',
         ]);
     }
 }

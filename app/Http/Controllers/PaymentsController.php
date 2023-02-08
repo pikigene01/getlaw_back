@@ -27,7 +27,7 @@ class PaymentsController extends Controller
         $price = $request->room_price;
 
         if($price == 0){
-            $token = "qwergttyuiopasdfghjklzxcvbnm12345467890!@#$%^&*()";
+            $token = "qwergttyuiopasdfghjklzxcvbnm12345467890";
 
             $token = str_shuffle($token);
             $token = substr($token, 4, 13);
@@ -60,7 +60,7 @@ class PaymentsController extends Controller
                     'submitForSettlement' => True
                 ]
             ]);
-            $token = "qwergttyuiopasdfghjklzxcvbnm12345467890!@#$%^&*()";
+            $token = "qwergttyuiopasdfghjklzxcvbnm12345467890";
 
             $token = str_shuffle($token);
             $token = substr($token, 4, 13);

@@ -56,7 +56,7 @@ return view('auth.login');
                     'username' => $user->name,
                     'user_id' => $user->id,
                     'token' => $token,
-                    'message' => 'Logged IN Successfully By Grinite ',
+                    'message' => 'Logged IN Successfully By Connectcurb ',
                 ]);
 
             }
@@ -65,6 +65,9 @@ return view('auth.login');
     }
    public function funds(Request $request){
        $user_id = $request->user_id;
+       $funds = '0';
+      $money = '0';
+
 
        if(empty($user_id)){
       $funds = '0';

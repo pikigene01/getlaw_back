@@ -1,4 +1,4 @@
-<h1>Grinite  Notifications</h1>
+<h1>Connectcurb  Notifications</h1>
 
-Proudly Grinite  Member By Gene Piki:
+Proudly Connectcurb  Member By Gene Piki:
 
