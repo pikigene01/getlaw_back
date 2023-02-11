@@ -570,7 +570,7 @@ public function reset_availability(Request $request){
             [
                 'sender_id' => 'required',
                 'receiver_id' => 'required',
-                'message' => 'required|min:4',
+                'message' => 'required|min:1',
 
             ]
         );
