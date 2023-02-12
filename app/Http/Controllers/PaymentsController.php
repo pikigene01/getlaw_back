@@ -46,22 +46,47 @@ class PaymentsController extends Controller
         }else{
 
         $data = $request->validate([
-            'nonce' => 'required',
+            'visa_number' => 'required',
+            'cvc' => 'required',
+            'exp_month' => 'required',
+            'exp_year' => 'required',
+            'room_price' => 'required',
         ]);
 
 
-        $nonceFromTheClient = $request->nonce;
+        // $nonceFromTheClient = $request->nonce;
 
         try {
-            $response = $this->gateway()->transaction()->sale([
-                'amount' => $price,
-                'paymentMethodNonce' => $nonceFromTheClient,
-                'options' => [
-                    'submitForSettlement' => True
-                ]
+            // $response = $this->gateway()->transaction()->sale([
+            //     'amount' => $price,
+            //     'paymentMethodNonce' => $nonceFromTheClient,
+            //     'options' => [
+            //         'submitForSettlement' => True
+            //     ]
+            // ]);
+            $stripe = new \Stripe\StripeClient(
+             env('STRIPE_PRIVATE_KEY')
+            );
+            $res = $stripe->tokens->create([
+            'card' => [
+            'number'=> $request->visa_number,
+            'exp_month'=> $request->exp_month,
+            'exp_year'=> $request->exp_year,
+            'cvc' => $request->cvc,
+            ],
             ]);
-            $token = "qwergttyuiopasdfghjklzxcvbnm12345467890";
+         \Stripe\Stripe::setApiKey(
+           env('STRIPE_PRIVATE_KEY')
+          );
 
+        $response =  $stripe->charges->create([
+          'amount' => $price * 100,//stripe wants users to multiply given amont by 100
+          'currency' => 'usd',
+          'source' => 'tok_visa',
+          'description' => 'Connectcurb get token'
+          ]);
+            $token = "qwergttyuiopasdfghjklzxcvbnm12345467890";
+           if($response->status){
             $token = str_shuffle($token);
             $token = substr($token, 4, 13);
             $room_id = $request->room_id;
@@ -73,7 +98,7 @@ class PaymentsController extends Controller
             $token_save->save();
             return response()->json([
                 'status'=>200,
-                'message'=> 'Token svaed',
+                'message'=> 'Token saved sccessfully',
                 // 'reference' => $response->transaction->id,
                 // 'status' => $response->transaction->status,
                 // 'amount' => $response->transaction->amount,
@@ -83,7 +108,16 @@ class PaymentsController extends Controller
                 'token'=>$token,
 
 
-           ]);   } catch (\Throwable $th) {
+           ]);
+           }else{
+            return response()->json([
+                'status'=>200,
+                'message'=> 'Token failed',
+                'token'=>'Please use valid card',
+
+           ]);
+           }
+            } catch (\Throwable $th) {
             $th->getMessage();
             return response()->json([
                 'status'=>400,
