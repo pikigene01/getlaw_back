@@ -111,7 +111,7 @@ class PaymentsController extends Controller
            ]);
            }else{
             return response()->json([
-                'status'=>200,
+                'status'=>400,
                 'message'=> 'Token failed',
                 'token'=>'Please use valid card',
 
